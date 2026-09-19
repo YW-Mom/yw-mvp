@@ -18,14 +18,16 @@ async function loadProducts(){
     return;
   }
 
-  document.getElementById("product-list").innerHTML =
-  data.map(product => `
+    document.getElementById("product-list").innerHTML =
+    data.map(product => `
       <tr>
         <td>${product.name}</td>
         <td>${product.sku}</td>
+        <td>${product.cost}</td>
         <td>${product.retail_price}</td>
+        <td>${product.reseller_price}</td>
       </tr>
-    `).join("");
+    `).join("")
 
 }
 
