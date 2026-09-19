@@ -18,7 +18,14 @@ async function loadProducts(){
     return;
   }
 
-  console.log(data);
+  document.getElementById("product-list").innerHTML =
+  data.map(product => `
+      <tr>
+        <td>${product.name}</td>
+        <td>${product.sku}</td>
+        <td>${product.retail_price}</td>
+      </tr>
+    `).join("");
 
 }
 
