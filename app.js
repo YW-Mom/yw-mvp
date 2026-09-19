@@ -1,5 +1,5 @@
 
-const SUPABASE_URL = "https://fjdbwzyibriusxbilcaq.supabase.co";
+const SUPABASE_URL = "https://fjdbwzyibriusxbjlcaq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_t7xD8lY1WjHj9HiYoxCnbA_HRhYWuZV";
 
 const list = document.getElementById("product-list");
