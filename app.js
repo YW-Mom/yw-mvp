@@ -7,19 +7,46 @@ const client = supabase.createClient(
   SUPABASE_KEY
 );
 
-async function loadProducts(){
+const list = document.getElementById("product-list");
 
-  const { data, error } = await client
-    .from("products")
-    .select("*");
+function showMessage(message) {
+  list.innerHTML = `
+    <tr>
+      <td colspan="5" style="padding:12px; color:#b91c1c;">
+        ${message}
+      </td>
+    </tr>
+  `;
+}
 
-  if(error){
-    console.log(error);
-    return;
-  }
+async function loadProducts() {
+  try {
+    showMessage("連線中...");
 
-    document.getElementById("product-list").innerHTML =
-    data.map(product => `
+    if (!window.supabase) {
+      throw new Error("Supabase SDK 沒有載入");
+    }
+
+    const client = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const { data, error } = await client
+      .from("products")
+      .select("name, sku, cost, retail_price, reseller_price, active")
+      .eq("active", true);
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data || data.length === 0) {
+      showMessage("連線成功，但目前查不到商品");
+      return;
+    }
+
+    list.innerHTML = data.map(product => `
       <tr>
         <td>${product.name}</td>
         <td>${product.sku}</td>
@@ -27,8 +54,11 @@ async function loadProducts(){
         <td>${product.retail_price}</td>
         <td>${product.reseller_price}</td>
       </tr>
-    `).join("")
+    `).join("");
 
+  } catch (err) {
+    showMessage("讀取失敗：" + err.message);
+  }
 }
 
 loadProducts();
